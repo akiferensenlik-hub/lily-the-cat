@@ -1,66 +1,102 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Lily The Cat</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      text-align: center;
-      padding: 40px;
-    }
-    input {
-      padding: 10px;
-      width: 60%;
-      font-size: 16px;
-      border-radius: 10px;
-      border: none;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: none;
-      margin-left: 10px;
-      background: pink;
-      cursor: pointer;
-    }
-    #cevap {
-      margin-top: 30px;
-      font-size: 20px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Lily The Cat</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f5f5ff;
+  text-align:center;
+  padding:30px;
+}
+
+.cat{
+  font-size:90px;
+}
+
+.yarn{
+  font-size:40px;
+  margin-top:-20px;
+}
+
+h1{
+  margin:10px 0 5px;
+}
+
+input{
+  padding:10px;
+  width:70%;
+  max-width:300px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  padding:10px 16px;
+  margin-left:5px;
+  border:none;
+  border-radius:8px;
+  background:pink;
+  cursor:pointer;
+}
+
+#res{
+  margin-top:20px;
+  font-size:18px;
+}
+</style>
 </head>
+
 <body>
 
-  <h1>🐱 Lily The Cat</h1>
-  <p>Kendi kendine öğrenen yapay zeka</p>
+<div class="cat">🐱</div>
+<div class="yarn">🧶</div>
 
-  <input id="soru" placeholder="Lily'ye bir şey sor..." />
-  <button onclick="sor()">Sor</button>
+<h1>Lily The Cat</h1>
+<p>Kendi kendine öğreniyor 🧠</p>
 
-  <div id="cevap"></div>
+<input id="q" placeholder="Lily'ye bir şey sor...">
+<button onclick="ask()">Sor</button>
 
-  <script>
-    const bilgiler = {
-      "elma ne renk": "Elma kırmızıdır 🍎",
-      "muz ne renk": "Muz sarıdır 🍌",
-      "sen kimsin": "Ben Lily The Cat 🐱"
-    };
+<div id="res"></div>
 
-    function sor() {
-      const soru = document.getElementById("soru").value.toLowerCase();
-      const cevapDiv = document.getElementById("cevap");
+<script>
+let memory = JSON.parse(localStorage.getItem("lilyMemory")) || {
+  "elma ne renk": "🍎 Elma genellikle kırmızıdır",
+  "muz ne renk": "🍌 Muz sarıdır",
+  "merhaba": "Merhaba! 🐱",
+  "nasılsın": "İyiyim, mır mır 😸"
+};
 
-      if (bilgiler[soru]) {
-        cevapDiv.innerText = bilgiler[soru];
-      } else {
-        cevapDiv.innerText = "Bu konu hakkında henüz bilgim yok 😿";
-      }
-    }
-  </script>
+function ask(){
+  let q = document.getElementById("q").value.toLowerCase().trim();
+  let res = document.getElementById("res");
+
+  if(memory[q]){
+    res.innerText = memory[q];
+  }else{
+    res.innerText = "Bunu bilmiyorum 😿 Bana öğret: soru = cevap";
+  }
+}
+
+// Öğretme sistemi
+document.getElementById("q").addEventListener("change", ()=>{
+  let text = document.getElementById("q").value;
+  if(text.includes("=")){
+    let parts = text.split("=");
+    let soru = parts[0].toLowerCase().trim();
+    let cevap = parts[1].trim();
+
+    memory[soru] = cevap;
+    localStorage.setItem("lilyMemory", JSON.stringify(memory));
+
+    document.getElementById("res").innerText = "Öğrendim! 🧠🐾";
+    document.getElementById("q").value = "";
+  }
+});
+</script>
 
 </body>
 </html>
