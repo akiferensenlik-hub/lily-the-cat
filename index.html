@@ -3,49 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <title>Lily The Cat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+    }
+    input {
+      padding: 10px;
+      width: 60%;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      margin-left: 10px;
+      background: pink;
+      cursor: pointer;
+    }
+    #cevap {
+      margin-top: 30px;
+      font-size: 20px;
+    }
+  </style>
 </head>
 <body>
 
-<h1>🐱 Lily The Cat</h1>
-<p>Kendi kendine öğreniyor...</p>
+  <h1>🐱 Lily The Cat</h1>
+  <p>Kendi kendine öğrenen yapay zeka</p>
 
-<input id="q" placeholder="Lily’ye bir şey sor..." />
-<button onclick="ask()">Sor</button>
+  <input id="soru" placeholder="Lily'ye bir şey sor..." />
+  <button onclick="sor()">Sor</button>
 
-<div id="res"></div>
+  <div id="cevap"></div>
 
-<script>
-let knowledge = {
-  "elma ne renk": "Elma genellikle kırmızıdır 🍎",
-  "muz ne renk": "Muz sarıdır 🍌",
-  "kedi nedir": "Kedi sevimli bir hayvandır 🐱",
-  "lily kim": "Ben Lily The Cat, öğrenen bir yapay zekâyım 🧠🐱"
-};
+  <script>
+    const bilgiler = {
+      "elma ne renk": "Elma kırmızıdır 🍎",
+      "muz ne renk": "Muz sarıdır 🍌",
+      "sen kimsin": "Ben Lily The Cat 🐱"
+    };
 
-let memory = JSON.parse(localStorage.getItem("lily_memory")) || {};
+    function sor() {
+      const soru = document.getElementById("soru").value.toLowerCase();
+      const cevapDiv = document.getElementById("cevap");
 
-function ask() {
-  let q = document.getElementById("q").value.toLowerCase().trim();
-  let res = document.getElementById("res");
-
-  if (!q) return;
-
-  if (knowledge[q]) {
-    res.innerHTML = "🐱 Lily: " + knowledge[q];
-    return;
-  }
-
-  if (!memory[q]) {
-    memory[q] = 1;
-    res.innerHTML = "🐱 Lily: Bunu bilmiyorum ama öğreniyorum 🧶";
-  } else {
-    memory[q]++;
-    res.innerHTML = "🐱 Lily: Bu soruyu daha önce sormuştun, hatırlıyorum 🧠";
-  }
-
-  localStorage.setItem("lily_memory", JSON.stringify(memory));
-}
-</script>
+      if (bilgiler[soru]) {
+        cevapDiv.innerText = bilgiler[soru];
+      } else {
+        cevapDiv.innerText = "Bu konu hakkında henüz bilgim yok 😿";
+      }
+    }
+  </script>
 
 </body>
 </html>
