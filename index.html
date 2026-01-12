@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Lily The Cat</title>
+</head>
+<body>
+
+<h1>🐱 Lily The Cat</h1>
+<p>Kendi kendine öğreniyor...</p>
+
+<input id="q" placeholder="Lily’ye bir şey sor..." />
+<button onclick="ask()">Sor</button>
+
+<div id="res"></div>
+
+<script>
+let knowledge = {
+  "elma ne renk": "Elma genellikle kırmızıdır 🍎",
+  "muz ne renk": "Muz sarıdır 🍌",
+  "kedi nedir": "Kedi sevimli bir hayvandır 🐱",
+  "lily kim": "Ben Lily The Cat, öğrenen bir yapay zekâyım 🧠🐱"
+};
+
+let memory = JSON.parse(localStorage.getItem("lily_memory")) || {};
+
+function ask() {
+  let q = document.getElementById("q").value.toLowerCase().trim();
+  let res = document.getElementById("res");
+
+  if (!q) return;
+
+  if (knowledge[q]) {
+    res.innerHTML = "🐱 Lily: " + knowledge[q];
+    return;
+  }
+
+  if (!memory[q]) {
+    memory[q] = 1;
+    res.innerHTML = "🐱 Lily: Bunu bilmiyorum ama öğreniyorum 🧶";
+  } else {
+    memory[q]++;
+    res.innerHTML = "🐱 Lily: Bu soruyu daha önce sormuştun, hatırlıyorum 🧠";
+  }
+
+  localStorage.setItem("lily_memory", JSON.stringify(memory));
+}
+</script>
+
+</body>
+</html>
